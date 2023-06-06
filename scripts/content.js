@@ -4,10 +4,10 @@ document.addEventListener('copy', () => {
     .then(value => {
       const copyList = getCopyList();
 
-      if (copyList[copyList.length-1] === value) {
+      if (copyList[copyList.length-1] && copyList[copyList.length-1].text === value) {
         return;
       }
-      copyList.push(value);
+      copyList.push({time: new Date().toLocaleString(), text: value});
 
       setCopyList(copyList);
     });
@@ -38,8 +38,8 @@ function getCopyListByPaging (page, size) {
 }
 
 // 선택한 아이템 복사
-function copyItemToClipboard (value) {
-  navigator.clipboard.writeText(value);
+function copyItemToClipboard (item) {
+  navigator.clipboard.writeText(item.text);
 }
 
 // 선택한 아이템 삭제
@@ -47,8 +47,6 @@ function deleteItem (index) {
   const copyList = getCopyList();
   copyList.slice(index, 1);
   
-  console.log(copyList);
-
   setCopyList(copyList);
 }
 
@@ -57,11 +55,20 @@ function clearItem () {
   setCopyList([]);
 }
 
-// 아이템 검색
+// 아이템 검색 (키워드)
 function searchItemByKeyword (keyword) {
   const copyList = getCopyList();
 
-  const filteredList = copyList.filter(item => item.includes(keyword));
+  const filteredList = copyList.filter(item => item.text.includes(keyword));
+
+  return filteredList;
+}
+
+// 아이템 검색 (날짜)
+function searchItemByDate (date) {
+  const copyList = getCopyList();
+
+  const filteredList = copyList.filter(item => new Date(item.time).toLocaleDateString() === date);
 
   return filteredList;
 }
