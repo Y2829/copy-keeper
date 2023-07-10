@@ -4,14 +4,14 @@
   "version": "0.1",
   "manifest_version": 3,
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.bundle.js"
   },
   "permissions": ["activeTab", "scripting", "storage", "contextMenus", "tabs", "clipboardWrite"],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "index.html"
   },
   "content_scripts": [{
-    "js": ["scripts/content.js"],
+    "js": ["content.bundle.js"],
     "matches": ["*://*/*"]
   }]
 }
