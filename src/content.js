@@ -5,9 +5,10 @@ document.addEventListener("copy", async () => {
     const { copyList } = await chrome.storage.sync.get("copyList");
     const newCopyList = copyList || [];
     const now = new Date();
-    const id = now.getTime();
+    const stringNow = String(now);
+    const id = String(now.getTime());
     await chrome.storage.sync.set({
-      copyList: [{ id, date: now, text: clipedText }, ...newCopyList],
+      copyList: [{ id, date: stringNow, text: clipedText }, ...newCopyList],
     });
   } catch (e) {
     console.error("Content Error: ", e);

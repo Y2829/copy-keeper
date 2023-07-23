@@ -92,8 +92,6 @@ const renderTable = (copyList) => {
 
   copyList.forEach((item) => {
     const { id, date, text } = item;
-    const { checkedCopy } = getState();
-    const checked = checkedCopy && checkedCopy === id;
     const parsedDate = new Date(date).toLocaleString();
     const tableRow = document.createElement("tr");
     tableRow.innerHTML = `
