@@ -1,65 +1,52 @@
-// 로컬 스토리지에서 리스트 조회
-function getCopyList() {
-  return chrome.storage.sync.get(['copyList']);
-}
+const isEqualDate = (a, b) => {
+  if (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  ) {
+    return true;
+  }
 
-// 로컬 스토리지에 리스트 저장
-function setCopyList(copyList) {
-  chrome.storage.sync.set({copyList});
-}
+  return false;
+};
 
-// 로컬 스토리지에서 리스트 조회 (페이징)
-function getCopyListByPaging(page, size) {
-  return getCopyList().then(result => {
-    const copyList = result.copyList;
-    const startIndex = (page - 1) * size;
-    const endIndex = page * size < copyList.length ? page * size : copyList.length;
+export const getCopyList = async (keyword = undefined, date = undefined) => {
+  const { copyList } = await chrome.storage.sync.get("copyList");
 
-    return copyList.slice(startIndex, endIndex);
-  });
-}
+  if (!copyList) {
+    throw new Error("Error Get CopyList");
+  }
 
-// 선택한 아이템 복사
-function copyItemToClipboard(item) {
-  navigator.clipboard.writeText(item.text);
-}
+  if (keyword === undefined && date === undefined) {
+    return copyList;
+  }
 
-// 선택한 아이템 삭제
-function deleteItem(index) {
-  getCopyList().then(result => {
-    const copyList = result.copyList;
-    copyList.splice(index, 1);
-    setCopyList(copyList);
-  });
-}
+  if (keyword && date === undefined) {
+    return copyList.filter(({ text }) => String(text).includes(keyword));
+  }
 
-// 모든 아이템 삭제
-function clearItem() {
-  setCopyList([]);
-}
+  if (date && keyword === undefined) {
+    return copyList.filter((item) => {
+      const copiedDate = new Date(item.date);
+      return isEqualDate(copiedDate, date);
+    });
+  }
 
-// 아이템 검색 (키워드)
-function searchItemByKeyword(keyword) {
-  return getCopyList().then(result => {
-    const copyList = result.copyList;
-    return copyList.filter(item => item.text.includes(keyword));
-  });
-}
+  return copyList
+    .filter(({ text }) => String(text).includes(keyword))
+    .filter((item) => {
+      const copiedDate = new Date(item.date);
+      return isEqualDate(copiedDate, date);
+    });
+};
 
-// 아이템 검색 (날짜)
-function searchItemByDate(date) {
-  return getCopyList().then(result => {
-    const copyList = result.copyList;
-    return copyList.filter(item => item.time === date);
-  });
-}
+export const deleteCopyItem = async (copyList, id) => {
+  const filteredCopyList = copyList.filter((item) => item.id !== id);
+  await updateCopyList(filteredCopyList);
 
-export default {
-  getCopyList,
-  getCopyListByPaging,
-  copyItemToClipboard,
-  deleteItem,
-  clearItem,
-  searchItemByKeyword,
-  searchItemByDate
-}
+  return filteredCopyList;
+};
+
+export const updateCopyList = async (copyList) => {
+  await chrome.storage.sync.set({ copyList });
+};
