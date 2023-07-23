@@ -2,32 +2,34 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Stopwatch</title>
+    <title>COPY KEEPER</title>
     <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
   </head>
   <body>
-    <header>
-      <section class="flex flex-justify-between">
-        <h1 class="color-primary">COPY KEEPER</h1>
-        <div class="flex" id="button-group">
-          <button class="border-left-radius button-active" id="on-btn">
-            ON
-          </button>
-          <button class="border-right-radius" id="off-btn">OFF</button>
+    <header class="Header">
+      <section class="Header__title">
+        <h1 class="Header__title-text">COPY KEEPER</h1>
+        <div class="Header__buttonGroup">
+          <button class="ButtonGroup__onBtn" id="button-active">ON</button>
+          <button class="ButtonGroup__offBtn">OFF</button>
         </div>
       </section>
-      <section>
-        <p class="color-dark80 mt-8">
+      <section class="Header__content">
+        <p class="Header__content-text">
           COPY KEEPER makes using the clipboard easy and useful.
         </p>
       </section>
     </header>
-    <div class="divider"></div>
-    <main style="margin-top: 32px">
-      <div class="flex flex-justify-between">
-        <select class="select" id="select-duration">
-          <option value="all">ALL</option>
-          <option value="0">today</option>
+    <div class="Divder"></div>
+    <main class="Main">
+      <section class="Main__control">
+        <select class="Main__control-select">
+          <option value="-1">All</option>
+          <option value="0">Today</option>
           <option value="1">1 days ago</option>
           <option value="2">2 days ago</option>
           <option value="3">3 days ago</option>
@@ -37,99 +39,27 @@
           <option value="7">7 days ago</option>
         </select>
 
-        <div class="flex">
-          <form id="search-form">
-            <input
-              class="text-field"
-              id="search-input"
-              style="margin-right: 8px"
-            />
-            <button
-              class="button-active border-radius"
-              id="search-btn"
-              style="padding: 8px 12px"
-            >
-              Search
-            </button>
+        <section class="Main__control-search">
+          <form class="Main__control-search">
+            <input class="Search__text" />
+            <button class="Search__button" type="submit">Search</button>
           </form>
-        </div>
-      </div>
-      <div class="table-container">
-        <table class="table">
+        </section>
+      </section>
+      <section class="Main__table">
+        <table>
           <thead>
             <tr>
-              <th style="width: 10%">
-                <input type="checkbox" id="all-check" value="all" />
-              </th>
-              <th style="width: 20%">Date</th>
-              <th style="width: 70%">Content</th>
+              <th style="width: 40%">Date</th>
+              <th style="width: 50%">Content</th>
+              <th style="width: 10%"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" id="tr-check" /></td>
-              <td>2023-05-12</td>
-              <td style="text-align: start">nasdf sdf e</td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
-      </div>
-      <div class="flex-end mt-16">
-        <button class="button-active border-radius" style="padding: 8px 12px">
-          Delete
-        </button>
-      </div>
+      </section>
     </main>
+
     <script src="./popup.bundle.js"></script>
   </body>
 </html>
