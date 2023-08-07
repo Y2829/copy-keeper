@@ -10,6 +10,10 @@ document.addEventListener("copy", async () => {
     await chrome.storage.sync.set({
       copyList: [{ id, date: stringNow, text: clipedText }, ...newCopyList],
     });
+
+    // 백그라운드 스크립트로 클립보드 데이터 전송
+    chrome.runtime.sendMessage({ type: "copy_event", text: clipedText });
+
   } catch (e) {
     console.error("Content Error: ", e);
   }
