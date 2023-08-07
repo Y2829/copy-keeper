@@ -72,6 +72,10 @@ tableBody.addEventListener("click", (e) => {
 const handleClickDelete = async (id) => {
   const { copyList } = getState();
   const filteredCopyList = await deleteCopyItem(copyList, id);
+
+  // 백그라운드 스크립트로 클립보드 데이터 전송
+  chrome.runtime.sendMessage({ type: "delete_event", filteredCopyList });
+
   setState({ copyList: filteredCopyList });
   renderTable(filteredCopyList);
 };

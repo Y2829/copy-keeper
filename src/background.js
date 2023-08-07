@@ -85,16 +85,25 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
   if (message.type === "copy_event") {
     const { text, id } = message;
-    // 백그라운드 스크립트에서 클립보드 데이터를 로컬 스토리지에 저장하는 작업 수행
-    handleCopyEvent(text, id);
+    handleEvent(text, "add");
+  } else if (message.type === "delete_event") {
+    const filteredCopyList = message.filteredCopyList;
+    handleEvent(filteredCopyList, "del");
   }
 });
 
 // 복사 이벤트 핸들러
-async function handleCopyEvent(clipedText, id) {
+async function handleEvent(data, status) {
   try {
     // 기존 저장된 클립보드 데이터 가져오기
-    const { copyList } = await chrome.storage.sync.get("copyList");
+    let copyList;
+
+    if (status == "add") {
+      const { copyList: addCopyList } = await chrome.storage.sync.get("copyList");
+      copyList = addCopyList;
+    } else if (status == "del") {
+      copyList = data;
+    }
 
     // 컨텍스트 메뉴 업데이트
     updateContextMenu(copyList);
